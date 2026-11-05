@@ -43,3 +43,17 @@ td .muted{font-size:12px}
 .error,[role=alert]{color:var(--danger);font-weight:600}
 @media(max-width:760px){.shell{padding:25px 16px 44px}.top{align-items:flex-start;flex-direction:column;gap:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:16px;min-height:96px}.num{font-size:27px}.panel{padding:19px 17px}table{display:block;overflow-x:auto;white-space:nowrap}th,td{padding:12px 10px}}
 @media(max-width:390px){.grid{grid-template-columns:1fr 1fr}.tag{white-space:normal}}
+
+.composer-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
+.file-button{display:inline-flex;align-items:center;background:#edf5ef;color:#176b45;border:1px solid #d8e7dc;border-radius:9px;padding:10px 15px;font-weight:700;cursor:pointer}
+.file-button input{display:none}
+.contact-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px;max-height:260px;overflow:auto}
+.contact-list .contact{display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:#fff;color:#25352b;border:1px solid #e5ebe6;margin:0;text-align:left}
+.contact-list .contact.active{border-color:#176b45;background:#f0f7f2}
+.contact small{font-weight:400;color:#6b756f}
+.preview-meta{display:grid;grid-template-columns:1fr 2fr;gap:12px;margin:14px 0}
+.preview-meta div{display:flex;flex-direction:column;gap:3px;background:#f8faf8;border:1px solid #e8eee9;padding:12px;border-radius:9px;min-width:0;overflow-wrap:anywhere}
+.email-preview{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.7 'DM Sans',sans-serif;background:#fbfcfb;border:1px solid #e8eee9;border-radius:10px;padding:18px;color:#26342b}
+.confirm{display:flex;align-items:flex-start;gap:9px;font-weight:500;line-height:1.45}
+.confirm input{width:auto;margin-top:4px}
+@media(max-width:600px){.contact-list{grid-template-columns:1fr}.preview-meta{grid-template-columns:1fr}}
