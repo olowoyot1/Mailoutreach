@@ -27,25 +27,55 @@ enum EmailStatus {
 }
 
 model Prospect {
-  id          String         @id @default(cuid())
+  id          String            @id @default(cuid())
   companyName String
   contactName String?
   email       String?
   website     String?
-  country     String         @default("UAE")
+  country     String            @default("UAE")
   notes       String?
-  status      ProspectStatus @default(NEW)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  status      ProspectStatus    @default(NEW)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
   emails      EmailLog[]
+  campaigns   CampaignProspect[]
 
   @@index([status])
+}
+
+model Campaign {
+  id          String             @id @default(cuid())
+  name        String
+  description String?            @db.Text
+  subject     String
+  body        String             @db.Text
+  status      String             @default("DRAFT")
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  prospects   CampaignProspect[]
+  emails      EmailLog[]
+
+  @@index([status, createdAt])
+}
+
+model CampaignProspect {
+  id         String   @id @default(cuid())
+  campaignId String
+  prospectId String
+  addedAt    DateTime @default(now())
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, prospectId])
+  @@index([prospectId])
 }
 
 model EmailLog {
   id           String      @id @default(cuid())
   prospectId   String
   prospect     Prospect    @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  campaignId   String?
+  campaign     Campaign?   @relation(fields: [campaignId], references: [id], onDelete: SetNull)
   subject      String
   body         String      @db.Text
   status       EmailStatus @default(DRAFT)
@@ -57,6 +87,7 @@ model EmailLog {
   createdAt    DateTime    @default(now())
 
   @@index([status, scheduledAt])
+  @@index([campaignId])
 }
 
 model Suppression {
