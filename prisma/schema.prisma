@@ -1,0 +1,39 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+enum ProspectStatus { NEW CONTACTED REPLIED INTERESTED NOT_INTERESTED BOUNCED UNSUBSCRIBED }
+enum EmailStatus { DRAFT QUEUED SENT FAILED BOUNCED REPLIED }
+model Prospect {
+ id String @id @default(cuid())
+ companyName String
+ contactName String?
+ email String?
+ website String?
+ country String @default("UAE")
+ notes String?
+ status ProspectStatus @default(NEW)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ emails EmailLog[]
+ @@index([status])
+}
+model EmailLog {
+ id String @id @default(cuid())
+ prospectId String
+ prospect Prospect @relation(fields:[prospectId], references:[id], onDelete:Cascade)
+ subject String
+ body String @db.Text
+ status EmailStatus @default(DRAFT)
+ sequenceStep Int @default(0)
+ scheduledAt DateTime?
+ sentAt DateTime?
+ messageId String?
+ error String? @db.Text
+ createdAt DateTime @default(now())
+ @@index([status, scheduledAt])
+}
+model Suppression {
+ id String @id @default(cuid())
+ email String @unique
+ reason String
+ createdAt DateTime @default(now())
+}
